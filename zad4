@@ -1,0 +1,33 @@
+public class Book
+namespace zad4;
+{
+    private string[] chapters = new string[10];
+
+    public string this[int index]
+    {
+        get => index >= 0 && index < chapters.Length ? chapters[index] ?? "Глава не найдена" : "Глава не найдена";
+        set
+        {
+            if (index >= 0)
+            {
+                if (index >= chapters.Length) Array.Resize(ref chapters, index + 5);
+                chapters[index] = value;
+            }
+        }
+    }
+
+    public override string ToString() => string.Join("\n", chapters
+        .Select((chapter, i) => (chapter, i))
+        .Where(x => x.chapter != null)
+        .Select(x => $"{x.i + 1}. {x.chapter}"));
+
+    public static void Main(string[] args)
+    {
+        var book = new Book();
+        book[0] = "Введение";
+        book[1] = "Глава 1";
+
+        Console.WriteLine(book[0]);
+        Console.WriteLine(book);
+    }
+}
