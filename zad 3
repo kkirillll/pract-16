@@ -1,0 +1,29 @@
+using System;
+namespace zad3;
+
+public class Counter
+{
+    public string Name { get; set; }
+    public int Value { get; set; }
+
+    public Counter(string name, int value) => (Name, Value) = (name, value);
+
+    public static Counter operator +(Counter c, int increment) => new Counter(c.Name, c.Value + increment);
+
+    public object this[string index]
+    {
+        get => index.ToLower() == "value" ? Value : throw new ArgumentException("Доступно только 'value'");
+        set => Value = index.ToLower() == "value" && value is int v ? v : throw new ArgumentException("Ошибка доступа");
+    }
+
+    public override string ToString() => $"{Name}: {Value}";
+
+    public static void Main(string[] args)
+    {
+        var c = new Counter("Счётчик", 10);
+        c = c + 5;
+        Console.WriteLine(c);
+        c["value"] = 20;
+        Console.WriteLine(c["value"]);
+    }
+}
